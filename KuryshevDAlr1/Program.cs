@@ -28,7 +28,7 @@ var command = -1;
 
 while (command != 20)
 {
-    Console.WriteLine(list.ToString());
+    Console.WriteLine($"List: {list.ToString()}");
 
     foreach (var cmd in commands)
         Console.WriteLine(cmd);
