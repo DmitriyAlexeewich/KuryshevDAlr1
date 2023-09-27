@@ -157,7 +157,8 @@ namespace KuryshevDAlr1.Domain
             if (_firstItem is null || _firstItem.IsLast)
                 return;
 
-            _firstItem = Reverse(_firstItem);
+            var (head, end) = Reverse(_firstItem);
+            _firstItem = head;
         }
 
         public void AddRangeAt(int index, LinkedList<T> list)
@@ -247,12 +248,12 @@ namespace KuryshevDAlr1.Domain
 
             Reverse();
 
-            return GetIndex(_firstItem, coincidence);
+            return GetIndex(_firstItem, coincidence) - list.Length + 1;
         }
 
         public void ReplaceAt(int targedIndex, int replacedIndex)
         {
-            if(targedIndex < 0)
+            if (targedIndex < 0)
                 throw new ArgumentOutOfRangeException(nameof(targedIndex));
 
             if (replacedIndex < 0)
@@ -267,81 +268,27 @@ namespace KuryshevDAlr1.Domain
             if (targedIndex == replacedIndex)
                 return;
 
+            Item<T> current = _firstItem;
             Item<T> target = null;
             Item<T> replaced = null;
 
-            if (targedIndex == 0)
-                target = _firstItem;
-
-            if(replacedIndex == 0)
-                replaced = _firstItem;
-
-            Item<T> tempItem = _firstItem;
-            targedIndex--;
-            replacedIndex--;
-
-            for (int i = 0; !tempItem.IsLast || target != null && replaced != null; i++)
+            for (int i = 0; target is null && replaced is null || !current.IsLast; i++)
             {
-                if (target is null && i == targedIndex)
-                    target = tempItem;
+                if (i == replacedIndex)
+                    replaced = current;
 
-                if (replaced is null && i == replacedIndex)
-                    replaced = tempItem;
+                if(i == targedIndex)
+                    target = current;
 
-                if (tempItem.IsLast)
-                    return;
-
-                tempItem = tempItem.Next;
+                current = current.Next;
             }
 
             if (target is null || replaced is null)
                 return;
 
-            if (target.IsLast || replaced.IsLast)
-                return;
-
-            if (targedIndex == 0)
-            {
-                var second = target.Next;
-                target.Next = replaced.Next.Next;
-                replaced.Next = target;
-                _firstItem = replaced.Next.Next;
-                _firstItem.Next = second;
-                return;
-            }
-
-            if (replacedIndex == 0)
-            {
-                var second = replaced.Next;
-                replaced.Next = target.Next.Next;
-                target.Next = replaced;                
-                _firstItem = target.Next.Next;
-                _firstItem.Next = second;
-                return;
-            }
-
-            if (targedIndex < replacedIndex)
-            {
-                var second = target.Next;
-                var third = target.Next;
-
-                target.Next = replaced.Next;
-                target.Next.Next = replaced.Next.Next;
-                replaced.Next = second;
-                replaced.Next.Next = third;
-                return;
-            }
-            else
-            {
-                var second = replaced.Next;
-                var third = replaced.Next;
-
-                replaced.Next = target.Next;
-                replaced.Next.Next = target.Next.Next;
-                target.Next = second;
-                target.Next.Next = third;
-                return;
-            }
+            var targetValue = target.Value;
+            target.Value = replaced.Value;
+            replaced.Value = targetValue;
         }
 
         private Item<T> GetLastItem(Item<T> item)
@@ -398,25 +345,24 @@ namespace KuryshevDAlr1.Domain
             return GetLength(item.Next, length);
         }
 
-        private Item<T> Reverse(Item<T> item)
+        private (Item<T>, Item<T>) Reverse(Item<T> item)
         {
             if(item is null)
                 throw new ArgumentNullException(nameof(item));
 
             if (item.Next.IsLast)
             {
-                var head = item.Next;
-                head.Next = item;
+                var reverseHead = item.Next;
+                reverseHead.Next = item;
                 item.Next = null;
-                return head;
+                return (reverseHead, item);
             }
 
-            var reversHead = Reverse(item.Next);
-            var last = GetLastItem(reversHead);
-            last.Next = item;
+            var (head, end) = Reverse(item.Next);
+            end.Next = item;
             item.Next = null;
 
-            return reversHead;
+            return (head, item);
         }
 
         private Item<T> GetByValue(Item<T> item, T value)

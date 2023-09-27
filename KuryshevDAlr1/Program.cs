@@ -91,6 +91,8 @@ while (command != 20)
                 break;
 
             Console.WriteLine(list.GetAt(getAt));
+
+            Console.ReadKey();
             break;
         case 7:
             var removeAt = 0;
@@ -104,6 +106,8 @@ while (command != 20)
             break;
         case 8:
             Console.WriteLine(list.Length);
+
+            Console.ReadKey();
             break;
         case 9:
             list.RemoveAll();
@@ -126,6 +130,8 @@ while (command != 20)
             break;
         case 11:
             Console.WriteLine(list.IsEmpty);
+
+            Console.ReadKey();
             break;
         case 12:
             list.Reverse();
@@ -224,6 +230,8 @@ while (command != 20)
             }
 
             Console.WriteLine(list.ContainsRange(tempListContain));
+
+            Console.ReadKey();
             break;
         case 17:
             var tempListContainFirst = new LinkedList();
@@ -246,6 +254,8 @@ while (command != 20)
             }
 
             Console.WriteLine(list.GetFirstCoincidence(tempListContainFirst));
+
+            Console.ReadKey();
             break;
         case 18:
             var tempListContainLast = new LinkedList();
@@ -268,6 +278,8 @@ while (command != 20)
             }
 
             Console.WriteLine(list.GetLastCoincidence(tempListContainLast));
+
+            Console.ReadKey();
             break;
         case 19:
             var targedIndex = 0;
@@ -288,6 +300,5 @@ while (command != 20)
             break;
     }
 
-    Console.ReadKey();
     Console.Clear();
 }
