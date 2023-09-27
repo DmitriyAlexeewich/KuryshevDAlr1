@@ -157,29 +157,7 @@ namespace KuryshevDAlr1.Domain
             if (_firstItem is null || _firstItem.IsLast)
                 return;
 
-            Item<T> head = null;
-            Item<T> end = null;
-            var elem = _firstItem;
-
-            while (!_firstItem.IsLast)
-            {
-                if (elem.Next.IsLast)
-                {
-                    if (head is null)
-                    {
-                        head = elem.Next;
-                        head.Next = 
-                    }
-                    if (end is null)
-                        end = elem.Next;
-                    else
-                    {
-                        end
-                    }
-                }
-
-                elem = elem.Next;
-            }
+            _firstItem = Reverse(_firstItem);
         }
 
         public void AddRangeAt(int index, LinkedList<T> list)
@@ -310,6 +288,9 @@ namespace KuryshevDAlr1.Domain
                 if (replaced is null && i == replacedIndex)
                     replaced = tempItem;
 
+                if (tempItem.IsLast)
+                    return;
+
                 tempItem = tempItem.Next;
             }
 
@@ -422,7 +403,20 @@ namespace KuryshevDAlr1.Domain
             if(item is null)
                 throw new ArgumentNullException(nameof(item));
 
-            
+            if (item.Next.IsLast)
+            {
+                var head = item.Next;
+                head.Next = item;
+                item.Next = null;
+                return head;
+            }
+
+            var reversHead = Reverse(item.Next);
+            var last = GetLastItem(reversHead);
+            last.Next = item;
+            item.Next = null;
+
+            return reversHead;
         }
 
         private Item<T> GetByValue(Item<T> item, T value)
