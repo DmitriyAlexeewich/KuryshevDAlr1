@@ -15,6 +15,9 @@ namespace KuryshevDAlr1.Domain
 
         private Item<T> _firstItem;
 
+        /// <summary>
+        /// Переопределение перобразования списка в строку
+        /// </summary>
         public override string ToString()
         {
             if(_firstItem is null)
@@ -23,6 +26,10 @@ namespace KuryshevDAlr1.Domain
             return ToString(_firstItem);
         }
 
+        /// <summary>
+        /// Добавляет элемент в конец списка
+        /// </summary>
+        /// <param name="value">Значение</param>
         public void AddToEnd(T value)
         {
             if (_firstItem is null)
@@ -35,6 +42,10 @@ namespace KuryshevDAlr1.Domain
             last.Next = new Item<T>(value);
         }
 
+        /// <summary>
+        /// Добавляет элемент в начало списка
+        /// </summary>
+        /// <param name="value">Значение</param>
         public void AddToHead(T value)
         {
             if (_firstItem is null)
@@ -48,6 +59,9 @@ namespace KuryshevDAlr1.Domain
             _firstItem = newFirst;
         }
 
+        /// <summary>
+        /// Удаляет элемент в конце списка
+        /// </summary>
         public void RemoveLast()
         {
             if (_firstItem is null)
@@ -57,6 +71,9 @@ namespace KuryshevDAlr1.Domain
             penultimate.Next = null;
         }
 
+        /// <summary>
+        /// Удаляет элемент в начале списка
+        /// </summary>
         public void RemoveFirst()
         {
             if (_firstItem is null)
@@ -71,6 +88,11 @@ namespace KuryshevDAlr1.Domain
             _firstItem = _firstItem.Next;
         }
 
+        /// <summary>
+        /// Добавляет элемент по индексу
+        /// </summary>
+        /// <param name="value">Значение</param>
+        /// <param name="index">Индекс</param>
         public void AddAt(T value, int index)
         {
             if(index < 0)
@@ -95,6 +117,10 @@ namespace KuryshevDAlr1.Domain
             prevItem.Next = newItem;
         }
 
+        /// <summary>
+        /// Возвращает элемент по индексу
+        /// </summary>
+        /// <param name="index">Индекс</param>
         public Item<T> GetAt(int index)
         {
             if (index < 0)
@@ -106,6 +132,10 @@ namespace KuryshevDAlr1.Domain
             return GetAt(_firstItem, index);
         }
 
+        /// <summary>
+        /// Удаляет элемент по индексу
+        /// </summary>
+        /// <param name="index">Индекс</param>
         public void RemoveAt(int index)
         {
             if (index < 0)
@@ -132,11 +162,19 @@ namespace KuryshevDAlr1.Domain
             prevItem.Next = nextItem;
         }
 
+        /// <summary>
+        /// Удаляет все элементы
+        /// </summary>
         public void RemoveAll()
         {
             _firstItem = null;
         }
 
+        /// <summary>
+        /// Заменяет элемент по индексу на передаваемый элемент
+        /// </summary>
+        /// <param name="value">Значение</param>
+        /// <param name="index">Индекс</param>
         public void SetAt(T value, int index)
         {
             if (index < 0)
@@ -152,6 +190,9 @@ namespace KuryshevDAlr1.Domain
             item.Value = value;
         }
 
+        /// <summary>
+        /// Меняет порядок элементов в списке на обратный
+        /// </summary>
         public void Reverse()
         {
             if (_firstItem is null || _firstItem.IsLast)
@@ -161,6 +202,11 @@ namespace KuryshevDAlr1.Domain
             _firstItem = head;
         }
 
+        /// <summary>
+        /// Добавляет элементы по индексу
+        /// </summary>
+        /// <param name="index">Индекс</param>
+        /// <param name="list">Вставляемый список</param>
         public void AddRangeAt(int index, LinkedList<T> list)
         {
             if(index < 0)
@@ -185,6 +231,10 @@ namespace KuryshevDAlr1.Domain
             prevItem.Next = list.Head;
         }
 
+        /// <summary>
+        /// Добавляет элементы в конец
+        /// </summary>
+        /// <param name="list">Вставляемый список</param>
         public void AddRangeToEnd(LinkedList<T> list)
         {
             if (list is null)
@@ -203,6 +253,10 @@ namespace KuryshevDAlr1.Domain
             last.Next = list.Head;
         }
 
+        /// <summary>
+        /// Добавляет элементы в начало
+        /// </summary>
+        /// <param name="list">Вставляемый список</param>
         public void AddRangeToHead(LinkedList<T> list)
         {
             if (list is null)
@@ -221,11 +275,19 @@ namespace KuryshevDAlr1.Domain
             _firstItem = list.Head;
         }
 
+        /// <summary>
+        /// Проверяет на наличие списка в списке
+        /// </summary>
+        /// <param name="list">Список</param>
         public bool ContainsRange(LinkedList<T> list)
         {
             return GetFirstCoincidence(list) != -1;
         }
 
+        /// <summary>
+        /// Возвращает индекс первого вхождения списка в список
+        /// </summary>
+        /// <param name="list">Список</param>
         public int GetFirstCoincidence(LinkedList<T> list)
         {
             var coincidence = GetFirstCoincidence(_firstItem, list.Head);
@@ -236,6 +298,10 @@ namespace KuryshevDAlr1.Domain
             return GetIndex(_firstItem, coincidence);
         }
 
+        /// <summary>
+        /// Возвращает индекс последнего вхождения списка в список
+        /// </summary>
+        /// <param name="list">Список</param>
         public int GetLastCoincidence(LinkedList<T> list)
         {
             Reverse();
@@ -251,6 +317,11 @@ namespace KuryshevDAlr1.Domain
             return GetIndex(_firstItem, coincidence) - list.Length + 1;
         }
 
+        /// <summary>
+        /// Меняет элементы местами
+        /// </summary>
+        /// <param name="targedIndex">Индекс ориинального элемента</param>
+        /// <param name="replacedIndex">Индекс заменяемого элемента</param>
         public void ReplaceAt(int targedIndex, int replacedIndex)
         {
             if (targedIndex < 0)
@@ -291,6 +362,10 @@ namespace KuryshevDAlr1.Domain
             replaced.Value = targetValue;
         }
 
+        /// <summary>
+        /// Возвращает последний элемент в последовательности
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
         private Item<T> GetLastItem(Item<T> item)
         {
             if(item is null)
@@ -302,6 +377,10 @@ namespace KuryshevDAlr1.Domain
             return GetLastItem(item.Next);
         }
 
+        /// <summary>
+        /// Возвращает предпоследний элемент в последовательности
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
         private Item<T> GetPenultimate(Item<T> item)
         {
             if (item is null)
@@ -313,6 +392,11 @@ namespace KuryshevDAlr1.Domain
             return GetPenultimate(item.Next);
         }
 
+        /// <summary>
+        /// Возвращает элемент в последовательности по индексу
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
+        /// <param name="index">Индекс</param>
         private Item<T> GetAt(Item<T> item, int index)
         {
             if (item is null)
@@ -329,6 +413,11 @@ namespace KuryshevDAlr1.Domain
             return GetAt(item.Next, index);
         }
 
+        /// <summary>
+        /// Возвращает длину последовательности
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
+        /// <param name="length">Длина</param>
         private int GetLength(Item<T> item, int length)
         {
             if (length < 0)
@@ -345,6 +434,10 @@ namespace KuryshevDAlr1.Domain
             return GetLength(item.Next, length);
         }
 
+        /// <summary>
+        /// Меняет порядок последовательности
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
         private (Item<T>, Item<T>) Reverse(Item<T> item)
         {
             if(item is null)
@@ -365,6 +458,11 @@ namespace KuryshevDAlr1.Domain
             return (head, item);
         }
 
+        /// <summary>
+        /// Возвращает первое совпадение по значению в последовательности
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
+        /// <param name="value">Значение</param>
         private Item<T> GetByValue(Item<T> item, T value)
         {
             if (item is null)
@@ -379,6 +477,11 @@ namespace KuryshevDAlr1.Domain
             return GetByValue(item.Next, value);
         }
 
+        /// <summary>
+        /// Возвращает первое совпадение по элементу в последовательности
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
+        /// <param name="searchedItem">Искомый элемент</param>
         private Item<T> GetFirstCoincidence(Item<T> item, Item<T> searchedItem)
         {
             if (item is null)
@@ -409,6 +512,12 @@ namespace KuryshevDAlr1.Domain
             return coincidence;
         }
 
+        /// <summary>
+        /// Возвращает индекс элемента последовательности
+        /// </summary>
+        /// <param name="head">Начальный элемент последовательности</param>
+        /// <param name="item">Искомый элемент последовательности</param>
+        /// <param name="index">Индекс</param>
         private int GetIndex(Item<T> head, Item<T> item, int index = 0)
         {
             if (head is null)
@@ -431,6 +540,10 @@ namespace KuryshevDAlr1.Domain
             return GetIndex(head.Next, item, index);
         }
 
+        /// <summary>
+        /// Преобразование последовательности в строку
+        /// </summary>
+        /// <param name="item">Элемент последовательности</param>
         private string ToString(Item<T> item)
         {
             if (item is null)

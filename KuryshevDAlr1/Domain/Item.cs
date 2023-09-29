@@ -33,7 +33,9 @@
             Value = value;
         }
 
-
+        /// <summary>
+        /// Преобразование последовательности в строку
+        /// </summary>
         public override string ToString()
         {
             if (Value is null)
